@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import NavigationBar from "./NavigationBar";
 import DisplayUsers from "./DisplayUsers";
 import Events from "./Events";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { users, eventList } from "./Var";
 
-const Home = ({ username, travelName }) => {
+const Home = () => {
+  const user = useLocation().state.user;
+  const travel = useLocation().state.travel;
   let initialPreferences = {
     displayIcon: true,
     displayMoney: true,
   };
+
   let [preferences, setPreferences] = useState(initialPreferences);
 
   localStorage.getItem("preferences") === null
@@ -38,10 +41,10 @@ const Home = ({ username, travelName }) => {
         </h1>
       </div>
       <div style={{ margin: "1.5%" }}>
-        <Link to="createEvent">
+        <Link to="createEvent" state={{ user: user, travel: travel }}>
           <button>이벤트 추가</button>
         </Link>
-        <Link to="createUser">
+        <Link to="createUser" state={{ user: user, travel: travel }}>
           <button>사용자 추가</button>
         </Link>
       </div>
@@ -51,11 +54,7 @@ const Home = ({ username, travelName }) => {
         ))}
       </div>
       <div className="App">
-        <DisplayUsers
-          users={users}
-          preferences={preferences}
-          travelName={travelName}
-        />
+        <DisplayUsers users={users} preferences={preferences} />
         <NavigationBar
           preferences={preferences}
           setPreferences={setPreferences}

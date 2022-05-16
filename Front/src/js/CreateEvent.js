@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { users } from "./Var";
 import personSrc from "../img/person.png";
 
@@ -29,24 +29,29 @@ var eventList = [
   },
 ];
 
-var payer = [];
-var participants = [...users];
 function CreateEvent() {
-  const [inputs, setInputs] = useState({
-    place: "",
-    price: "",
-    date: "",
-  });
+  var payer = [];
+  var participants = [...users];
+  const user = useLocation().state.user;
+  const travel = useLocation().state.travel;
+  // const [place, setPlace] = useState();
+  // const [price, setPrice] = useState();
+  // const [date, setDate] = useState();
 
-  const { place, price, date } = inputs;
+  // const onChangePlace = (e) => {
+  //   setPlace(e.target.value);
+  //   e.preventDefault();
+  // };
 
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+  // const onChangePrice = (e) => {
+  //   setPrice(e.target.value);
+  //   e.preventDefault();
+  // };
+
+  // const onChangeDate = (e) => {
+  //   setDate(e.target.value);
+  //   e.preventDefault();
+  // };
 
   function CreateUser({ user }) {
     const [participate, setParticipate] = useState("participate");
@@ -81,7 +86,6 @@ function CreateEvent() {
 
   const onClickSubmit = (e) => {
     if (payer.length === 1) {
-      console.log("okay");
       const newEvent = {
         index: eventList.length + 1,
         place: document.querySelector("#place").value,
@@ -90,10 +94,12 @@ function CreateEvent() {
         date: document.querySelector("#date").value,
         participants: participants,
       };
-      console.log(participants);
+
+      console.log(newEvent);
       eventList.push(newEvent);
     } else if (payer.length > 1) {
       alert("결제자는 한 명이어야 합니다\nError: Too Many Payers");
+      e.preventDefault();
     } else if (payer.length === 0) {
       alert("결제자는 한 명이어야 합니다\nError: No Payer");
       e.preventDefault();
@@ -108,8 +114,6 @@ function CreateEvent() {
           type="text"
           id="place"
           name="place"
-          onChange={onChange}
-          value={place}
           size="5"
         />
         <input
@@ -117,26 +121,20 @@ function CreateEvent() {
           type="text"
           id="price"
           name="price"
-          onChange={onChange}
-          value={price}
           size="5"
         />
-        <input
-          placeholder="날짜"
-          type="date"
-          id="date"
-          name="date"
-          onChange={onChange}
-          value={date}
-          size="5"
-        />
+        <input placeholder="날짜" type="date" id="date" name="date" size="5" />
       </div>
       <div>
         {users.map((user) => (
           <CreateUser user={user} key={user.index} />
         ))}
       </div>
-      <Link to="/" onClick={onClickSubmit}>
+      <Link
+        to={`/${user}/${travel}`}
+        state={{ user: user, travel: travel, eventList: eventList }}
+        onClick={onClickSubmit}
+      >
         <button>이벤트 추가</button>
       </Link>
     </div>

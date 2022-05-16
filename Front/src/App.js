@@ -16,7 +16,10 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/" element={<LogIn />} />
-        <Route path="/:username/profile" element={<Profile />} />
+        <Route
+          path="/:username/:travel/profile/:username"
+          element={<Profile />}
+        />
         <Route path="/login" element={<LogIn />} />
         <Route path="/register" element={<Register />} />
         <Route path="/calendar" element={<Calendar />} />
@@ -25,8 +28,11 @@ const App = () => {
           element={<CreateEvent />}
         />
         <Route path="/:username/:travel/createUser" element={<CreateUser />} />
-        <Route path="/event/:place" element={<EventDescription />} />
-        <Route path="/selectTravel" element={<SelectTravel />} />
+        <Route
+          path="/:username/:travel/event/:event"
+          element={<EventDescription />}
+        />
+        <Route path="/:username/selectTravel" element={<SelectTravel />} />
         <Route path="/:username/:travel" element={<Home />} />
       </Routes>
     </div>

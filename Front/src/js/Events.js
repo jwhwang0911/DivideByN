@@ -4,7 +4,11 @@ import { Link } from "react-router-dom";
 function Events({ event }) {
   return (
     <div style={{ display: "flex" }}>
-      <Link className="event" to={`/event/${event.place}`}>
+      <Link
+        className="event"
+        to={`event/${event.place}`}
+        state={{ event: event }}
+      >
         <span>{event.place}</span>
       </Link>
       <span className="event">{event.name}</span>

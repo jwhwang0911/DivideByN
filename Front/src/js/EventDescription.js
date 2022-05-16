@@ -1,10 +1,10 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { eventList } from "./Var";
 
-const EventDescription = () => {
-  const { place } = useParams();
-  const description = eventList.filter((event) => event.place === place)[0];
+const EventDescription = ({}) => {
+  const description = useLocation().state.event;
+  console.log(description);
   return (
     <div>
       <h2 id="headers">place: {description.place}</h2>
@@ -12,8 +12,11 @@ const EventDescription = () => {
       <h2 id="headers">price: {description.price}</h2>
       <h2 id="headers">date: {description.date}</h2>
       <div style={{ display: "flex" }}>
-        {description.participants.map((participant) => (
-          <h3 style={{ margin: "0 auto" }}> {participant} </h3>
+        {description.participants.map((participant, id) => (
+          <h3 style={{ margin: "0 auto" }} key={id}>
+            {" "}
+            {participant}{" "}
+          </h3>
         ))}
       </div>
     </div>

@@ -2,12 +2,12 @@ import React from "react";
 import personSrc from "../img/person.png";
 import { Link } from "react-router-dom";
 
-function DisplayUsers({ users, preferences }) {
+function DisplayUsers({ users, preferences, travel }) {
   const currentLoggedIn = JSON.parse(localStorage.getItem("id"));
   function CreateUser({ user }) {
     return (
       <div className="user">
-        <Link to={`/${user.name}/profile`}>
+        <Link to={`profile/${user.name}`}>
           {preferences.displayIcon ? (
             <img className="icon" src={personSrc} alt="profile" />
           ) : null}
